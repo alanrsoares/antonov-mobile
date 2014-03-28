@@ -1,0 +1,12 @@
+<ion-view title="Metrics">
+  <ion-content ng-class="metrics-content">
+    <ion-refresher
+     on-refresh="onRefresh()">
+    </ion-refresher>
+    <div class="row" ng-repeat="row in rows">
+      <div class="col" ng-repeat="col in row">
+        <tile data="col" />
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

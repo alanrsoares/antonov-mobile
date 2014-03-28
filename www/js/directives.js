@@ -1,0 +1,25 @@
+angular.module('antonov.directives', [])
+
+.directive('tile', function() {
+	return {
+		templateUrl: 'tile.html',
+		restrict: 'E',
+		scope: {
+			data: '=',
+		},
+		link: function(scope, element, attrs) {
+		    scope.flipView = function(id) {
+				var viewPath = "index.html#/app/metrics/" + id;
+				var view = new steroids.views.WebView(viewPath);
+				var flipAnimation = new steroids.Animation({
+					transition: "flipHorizontalFromRight",
+					reversedTransition: "flipHorizontalFromLeft",
+				});
+				steroids.layers.push({
+					view: view,
+					animation: flipAnimation
+				});
+			};
+		}		
+	};
+});
