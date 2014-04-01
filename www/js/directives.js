@@ -7,8 +7,8 @@ angular.module('antonov.directives', [])
 		scope: {
 			data: '='
 		},
-		link: function(scope, element, attrs) {
-		    scope.flipView = function(id) {
+        link: function (scope) {
+            scope.flipView = function(id) {
                 var isOdd = parseInt(id) % 2 !== 0;
 				var viewPath = "index.html#/app/metrics/" + id;
 				var view = new steroids.views.WebView(viewPath);
