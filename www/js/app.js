@@ -24,6 +24,13 @@ angular.module('antonov', [
                 controller: 'AppCtrl'
             })
 
+            .state('app.login', {
+                url: "/app/login",
+                abstract: true,
+                templateUrl: "templates/login.html",
+                controller: 'LoginCtrl'
+            })
+
             .state('app.metrics', {
                 url: "/metrics",
                 views: {

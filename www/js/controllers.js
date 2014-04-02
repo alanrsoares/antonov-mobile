@@ -1,38 +1,39 @@
 angular.module('antonov.controllers', [])
 
-.controller('AppCtrl', function($scope) {
-	steroids.view.navigationBar.show("Home");
+    .controller('AppCtrl', function ($scope) {
+        steroids.view.navigationBar.show("Home");
 
-	$scope.openView = function(viewPath) {
-		var basePath = "index.html";
-		var webView = new steroids.views.WebView(basePath + viewPath);
-		steroids.layers.push(webView);
-	};
-})
+        $scope.openView = function (viewPath) {
+            var basePath = "index.html";
+            var webView = new steroids.views.WebView(basePath + viewPath);
+            steroids.layers.push(webView);
+        };
+    })
 
-.controller('MetricsCtrl', function($scope, metricManager, tileBuilder) {
+    .controller('LoginCtrl', function ($scope) {
+        $scope.email = "";
+        $scope.password = "";
+    })
 
-	steroids.view.navigationBar.show("TOP CHARTS");
+    .controller('MetricsCtrl', function ($scope, metricManager, tileBuilder) {
 
-	$scope.onRefresh = function() {
-		console.log("Refreshing... Ahhh!");
-		$scope.$broadcast('scroll.refreshComplete');
-	};
+        steroids.view.navigationBar.show("TOP CHARTS");
 
-	var tiles = metricManager.tiles;
+        $scope.onRefresh = function () {
+            console.log("Refreshing... Ahhh!");
+            $scope.$broadcast('scroll.refreshComplete');
+        };
 
-	$scope.rows = tileBuilder.buildRows(tiles, 2);
-})
+        var tiles = metricManager.tiles;
 
-.controller('MetricCtrl', function($scope, $stateParams, metricManager) {
-	
-	var metricId = $stateParams.metricId;
+        $scope.rows = tileBuilder.buildRows(tiles, 2);
+    })
 
-	console.log("metricId: " + metricId);
+    .controller('MetricCtrl', function ($scope, $stateParams, metricManager) {
 
-	$scope.metric = metricManager.tile(metricId);
+        var metricId = $stateParams.metricId;
 
-	console.log("metric: " + $scope.metric);
+        console.log("metricId: " + metricId);
 
-	steroids.view.navigationBar.show($scope.metric.header);
-});
+        $scope.metric = metricManager.tile(metricId);
+    });
