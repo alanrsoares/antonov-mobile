@@ -1,7 +1,12 @@
 angular.module('antonov.controllers', [])
 
-    .controller('AppCtrl', function ($scope) {
-        steroids.view.navigationBar.show("Home");
+    .controller('AppCtrl', function ($scope, $location) {
+
+        var loginPath = "/app/login";
+
+        if ($location.path() !== loginPath) {
+            $location.path(loginPath);
+        }
 
         $scope.openView = function (viewPath) {
             var basePath = "index.html";

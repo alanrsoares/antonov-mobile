@@ -4,33 +4,39 @@ angular.module('antonov.services', [])
 
 	var tiles = [{
 		id: 1,
+        position: 1,
 		header: "Revenue",
 		body: "$143,450",
 		style: "mint"
 	}, {
 		id: 2,
+        position: 2,
 		header: "Sales",
 		body: "3,423",
 		style: "grass"
 	}, {
 		id: 3,
+        position: 3,
 		header: "Avg. Ticket",
 		body: "$132.45",
 		style: "sunflower"
 	}, {
 		id: 4,
+        position: 4,
 		header: "Payments",
 		body: "28%",
 		footer: "MasterCard",
 		style: "bittersweet"
 	}, {
 		id: 5,
+        position: 5,
 		header: "Order Status",
 		body: "8%",
 		footer: "Approved",
 		style: "grapefruit"
 	}, {
 		id: 6,
+        position: 6,
 		header: "TRO",
 		body: "28%",
 		style: "grass"
