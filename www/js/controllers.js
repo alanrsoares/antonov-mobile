@@ -1,13 +1,6 @@
 angular.module('antonov.controllers', [])
 
-    .controller('AppCtrl', function ($scope, $location) {
-
-        var loginPath = "/app/login";
-
-        if ($location.path() !== loginPath) {
-            $location.path(loginPath);
-        }
-
+    .controller('AppCtrl', function ($scope) {
         $scope.openView = function (viewPath) {
             var basePath = "index.html";
             var webView = new steroids.views.WebView(basePath + viewPath);
@@ -15,17 +8,12 @@ angular.module('antonov.controllers', [])
         };
     })
 
-    .controller('LoginCtrl', function ($scope) {
-        $scope.email = "";
-        $scope.password = "";
-    })
-
     .controller('MetricsCtrl', function ($scope, metricManager, tileBuilder) {
 
         steroids.view.navigationBar.show("TOP CHARTS");
 
         $scope.onRefresh = function () {
-            console.log("Refreshing... Ahhh!");
+            console.log("Refreshing...");
             $scope.$broadcast('scroll.refreshComplete');
         };
 

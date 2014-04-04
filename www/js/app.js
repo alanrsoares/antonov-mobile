@@ -1,67 +1,48 @@
 angular.module('antonov', [
     'ionic',
+    'vtexIdInterceptor',
     'antonov.controllers',
     'antonov.directives',
     'antonov.filters',
     'antonov.services'
 ])
 
-    .run(function ($ionicPlatform, $rootScope, $location) {
+    .run(function ($ionicPlatform) {
         $ionicPlatform.ready(function () {
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
         });
-        // register listener to watch route changes
-        $rootScope.$on("$routeChangeStart", function (event, next, current) {
-            if (!$rootScope.loggedUser) {
-                alert(next.templateUrl);
-                // no logged user, we should be going to #login
-                if (next.templateUrl === "templates/login.html") {
-                    // already going to #login, no redirect needed
-                } else {
-                    // not going to #login, we should redirect now
-                    $location.path("/app/login");
-                }
-            }
-        });
     })
 
-    .config(function ($stateProvider, $urlRouterProvider) {
+    .config(function ($stateProvider, $httpProvider, $urlRouterProvider) {
+
+        $httpProvider.interceptors.push('vtexIdInterceptor');
+
         $stateProvider
 
             .state('app', {
-                url: "/app",
+                url: '/app',
                 abstract: true,
-                templateUrl: "templates/menu.html",
+                templateUrl: 'templates/menu.html',
                 controller: 'AppCtrl'
             })
 
-            .state('app.login', {
-                url: "/login",
-                views: {
-                    'menuContent': {
-                        templateUrl: "templates/login.html",
-                        controller: 'LoginCtrl'
-                    }
-                }
-            })
-
             .state('app.metrics', {
-                url: "/metrics",
+                url: '/metrics',
                 views: {
                     'menuContent': {
-                        templateUrl: "templates/metrics.html",
+                        templateUrl: 'templates/metrics.html',
                         controller: 'MetricsCtrl'
                     }
                 }
             })
 
             .state('app.metric', {
-                url: "/metrics/:metricId",
+                url: '/metrics/:metricId',
                 views: {
                     'menuContent': {
-                        templateUrl: "templates/metric.html",
+                        templateUrl: 'templates/metric.html',
                         controller: 'MetricCtrl'
                     }
                 }
