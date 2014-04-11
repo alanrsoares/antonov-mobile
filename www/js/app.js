@@ -1,12 +1,11 @@
 angular.module('antonov', [
     'ionic',
-    'vtexIdInterceptor',
+    'ngStorage',
     'antonov.controllers',
     'antonov.directives',
     'antonov.filters',
     'antonov.services'
 ])
-
     .run(function ($ionicPlatform) {
         $ionicPlatform.ready(function () {
             if (window.StatusBar) {
@@ -17,8 +16,6 @@ angular.module('antonov', [
 
     .config(function ($stateProvider, $httpProvider, $urlRouterProvider) {
 
-        $httpProvider.interceptors.push('vtexIdInterceptor');
-
         $stateProvider
 
             .state('app', {
@@ -26,6 +23,26 @@ angular.module('antonov', [
                 abstract: true,
                 templateUrl: 'templates/menu.html',
                 controller: 'AppCtrl'
+            })
+
+            .state('app.landing', {
+                url: '/landing',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/landing.html',
+                        controller: 'LandingCtrl'
+                    }
+                }
+            })
+
+            .state('app.login', {
+                url: '/login',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/login.html',
+                        controller: 'LoginCtrl'
+                    }
+                }
             })
 
             .state('app.metrics', {

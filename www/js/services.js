@@ -80,8 +80,7 @@ angular.module('antonov.services', [])
                         row.push(tilesData.shift());
                 }
                 rows.push(row);
-            }
-            ;
+            };
 
             return rows;
         }
@@ -92,23 +91,25 @@ angular.module('antonov.services', [])
     })
 
     .factory('appCache', function ($cacheFactory) {
-        return $cacheFactory('app-cache');
+        return $cacheFactory('appCache');
     })
 
     .factory('auth', function (appCache) {
-        var userCacheKey = 'current-user';
 
-        var getAuthenticatedUser = function () {
+        var userCacheKey = 'currentUser';
+
+        function getAuthenticatedUser() {
             return appCache.get(userCacheKey);
         };
 
-        var isAuthenticated = function () {
+        function isAuthenticated() {
             var current = getAuthenticatedUser();
             return typeof current !== 'undefined' && current !== null;
         };
 
-        var authenticate = function (username, password) {
+        function authenticate(username, password) {
             appCache.put(userCacheKey, {'username': username, 'password': password});
+            console.log(appCache.get(userCacheKey));
         };
 
         return {
