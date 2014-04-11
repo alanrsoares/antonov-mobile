@@ -1,12 +1,14 @@
 angular.module('antonov.controllers', [])
 
-    .controller('AppCtrl', function ($scope, $location, appCache, auth) {
+    .controller('AppCtrl', function ($scope, $location, auth) {
 
         (function checkLoginStatus() {
 
             var loginPath = "/app/login";
 
             var shouldRedirect = $location.path() !== loginPath && !auth.isAuthenticated();
+
+            console.log(auth.getAuthenticatedUser());
 
             if (shouldRedirect)
                 $location.path(loginPath);
@@ -20,10 +22,14 @@ angular.module('antonov.controllers', [])
     })
 
     .controller('LoginCtrl', function ($scope, $location, auth) {
-        $scope.authenticate = function () {
-            auth.authenticate($scope.username, $scope.password);
-            if (auth.isAuthenticated())
-                $location.path("/");
+
+        $scope.user = {};
+
+        $scope.login = function () {
+            auth.login($scope.user, function(){
+                if (auth.isAuthenticated())
+                    $location.path("/");
+            });
         }
     })
 

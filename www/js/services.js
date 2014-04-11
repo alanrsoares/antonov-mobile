@@ -90,16 +90,39 @@ angular.module('antonov.services', [])
         };
     })
 
-    .factory('appCache', function ($cacheFactory) {
-        return $cacheFactory('appCache');
+    .factory('licenseManager', function(){
+        var serviceBaseAddress = "https://licensemanager.vtex.com.br/api/site";
     })
 
-    .factory('auth', function (appCache) {
+    .factory('auth', function ($http, $localStorage) {
 
-        var userCacheKey = 'currentUser';
+        var serviceBaseAddress = "https://vtexid.vtex.com.br/api/vtexid/pub/authentication/";
+
+        function getAuthenticationToken(callback) {
+            $http
+                .get(serviceBaseAddress + 'start')
+                .then(function (response) {
+                    callback(response.data.authenticationToken);
+                });
+        };
+
+        function validateLogin(token, user, callback) {
+            $http
+                .get(serviceBaseAddress + 'classic/validate',
+                {
+                    params: {
+                        authenticationToken: token,
+                        login: user.email,
+                        password: user.password
+                    }
+                })
+                .then(function (response) {
+                    callback(response.data);
+                });
+        }
 
         function getAuthenticatedUser() {
-            return appCache.get(userCacheKey);
+            return $localStorage.currentUser;
         };
 
         function isAuthenticated() {
@@ -107,14 +130,26 @@ angular.module('antonov.services', [])
             return typeof current !== 'undefined' && current !== null;
         };
 
-        function authenticate(username, password) {
-            appCache.put(userCacheKey, {'username': username, 'password': password});
-            console.log(appCache.get(userCacheKey));
+        function login(user, callback) {
+            getAuthenticationToken(function (token) {
+                validateLogin(token, user, function (res) {
+                    if (res.authStatus === "Success") {
+                        $localStorage.currentUser = _.extend(user, res);
+                        callback();
+                    }
+                });
+            });
+        };
+
+        function logout() {
+            $localStorage.currentUser = null;
         };
 
         return {
-            authenticate: authenticate,
+            login: login,
+            logout: logout,
             isAuthenticated: isAuthenticated,
+            getAuthenticationToken: getAuthenticationToken,
             getAuthenticatedUser: getAuthenticatedUser
         };
     });
